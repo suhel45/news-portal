@@ -42,7 +42,7 @@ const display2 = async(datas) =>{
     const sec = document.getElementById('card-section');
     sec.textContent = '';
     if(len === 0){
-        h3.innerHTML = `${len} items found`
+        h3.innerHTML = `${len} news found`
         newsDiv.appendChild(h3);
       const h2 = document.createElement('h3');
       h2.innerHTML = "No data found";
@@ -50,7 +50,7 @@ const display2 = async(datas) =>{
       toggleSpinner(false)
     }
     else{
-        h3.innerHTML = `${len} items found`
+        h3.innerHTML = `${len} news found`
         newsDiv.appendChild(h3);
      for(const data of datas){
         console.log(data)
