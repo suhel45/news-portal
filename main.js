@@ -9,34 +9,48 @@ const displayCategory = async() =>{
     const result = await allNews();
     const  datas =  result.data.news_category;
     for(const data of datas){
+        const id = data.category_id;
         const nav = document.getElementById('navbarNavAltMarkup');
         const div = document.createElement('div');
+        
         div.innerHTML = `
-        <a class="nav-link" href="#">${data.category_name}</a>
+        <a class="nav-link" href="#" onclick="categoryId(${id})">${data.category_name}</a>
         `
         nav.appendChild(div);
-        const news_id = data.category_id;
-        fetch(`https://openapi.programming-hero.com/api/news/category/${news_id}`)
-        .then(res => res.json())
-        .then(data1 => display1(data1))
+        // const news_id = data.category_id;
+        // fetch(`https://openapi.programming-hero.com/api/news/category/${news_id}`)
+        // .then(res => res.json())
+        // .then(data1 => display1(data1))
     }
     
 }
  displayCategory();
 
-const display1 = input =>{
-    const datas = input.data;
-    for(const data of datas){
-        fetch(`https://openapi.programming-hero.com/api/news/${data._id}`)
-        .then(res => res.json())
-        .then(data => display2(data.data))
+ function categoryId(a){
+    fetch(`https://openapi.programming-hero.com/api/news/category/0${a}`)
+    .then(res => res.json())
+    .then(data1 => display2(data1.data))
+ }
+
+const display2 = async(datas) =>{
+   
+    const newsDiv = document.getElementById('news-found');
+    newsDiv.textContent = '';
+    const h3 = document.createElement('h4');
+      const len = datas.length;
+    const sec = document.getElementById('card-section');
+    sec.textContent = '';
+    if(len === 0){
+        h3.innerHTML = `${len} items found`
+        newsDiv.appendChild(h3);
+      const h2 = document.createElement('h3');
+      h2.innerHTML = "No data found";
+      sec.appendChild(h2);
     }
-}
- 
-const display2 = datas =>{
-    console.log(datas);
+    else{
+        h3.innerHTML = `${len} items found`
+        newsDiv.appendChild(h3);
      for(const data of datas){
-        const sec = document.getElementById('card-section');
         const div = document.createElement('div');
         div.innerHTML = `
         <div class="card mb-3" >
@@ -61,5 +75,7 @@ const display2 = datas =>{
       </div>
         `
         sec.appendChild(div);
+     }  
      }
 }
+
