@@ -1,10 +1,13 @@
-fetch('https://openapi.programming-hero.com/api/news/categories')
-.then(res => res.json())
-.then(data => display(data));
+const allNews = async() =>{
+    const res = await fetch('https://openapi.programming-hero.com/api/news/categories');
+     const data = await res.json();
+    return data;
+}
 
 
-const display = receive =>{
-    const datas = receive.data.news_category;
+const displayCategory = async() =>{
+    const result = await allNews();
+    const  datas =  result.data.news_category;
     for(const data of datas){
         const nav = document.getElementById('navbarNavAltMarkup');
         const div = document.createElement('div');
@@ -19,6 +22,7 @@ const display = receive =>{
     }
     
 }
+ displayCategory();
 
 const display1 = input =>{
     const datas = input.data;
@@ -30,8 +34,8 @@ const display1 = input =>{
 }
  
 const display2 = datas =>{
+    console.log(datas);
      for(const data of datas){
-        console.log(data)
         const sec = document.getElementById('card-section');
         const div = document.createElement('div');
         div.innerHTML = `
@@ -43,12 +47,11 @@ const display2 = datas =>{
           <div class="col-md-8">
             <div class="card-body">
               <h5 class="card-title">${data.title}</h5>
-              <p class="card-text">${data.details}</p>
+              <p class="card-text">${data.details.length > 400 ? data.details.slice(0,400) + '...' : data.details}</p>
               <div class="d-flex flex-row">
               <img src="${data.author.img}" class="img-fluid  rounded-circle" alt="..." style="width: 50px; height: 50px;">
                <div class="d-flex mt-2 gap-5">
-               <p class="card-text  ms-2"><small>${data.author.name}</small>
-               </p>
+               <p class="card-text  ms-2"><small>${data.author.name}</small></p>
                <p>${data.rating.number}M</p>
                </div>
               </div>
