@@ -53,6 +53,7 @@ const display2 = async(datas) =>{
         h3.innerHTML = `${len} items found`
         newsDiv.appendChild(h3);
      for(const data of datas){
+        console.log(data)
         const div = document.createElement('div');
         div.innerHTML = `
         <div class="card mb-3" >
@@ -68,8 +69,12 @@ const display2 = async(datas) =>{
               <img src="${data.author.img}" class="img-fluid  rounded-circle" alt="..." style="width: 50px; height: 50px;">
                <div class="d-flex mt-2 gap-5">
                <p class="card-text  ms-2"><small>${data.author.name}</small></p>
-               <p>${data.rating.number}M</p>
-               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="showModal('${data.title}','${data.image_url}')">
+               <p><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="" style="height:25px; width:25px">
+               <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+               <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+             </svg>
+             ${data.rating.number}M</p>
+               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="showModal('${data.author.name}','${data.title}','${data.image_url}','${data.total_view}')">
                Show details
                </button>
 
@@ -86,13 +91,15 @@ const display2 = async(datas) =>{
   }
 }
 
- const showModal = (description,img) =>{
+ const showModal = (name,description,img,view) =>{
     const modalDiv = document.getElementById('modal-body');
     modalDiv.textContent = '';
     const div = document.createElement('div');
     div.innerHTML = `
+    <p>Author name: ${name == "null" ? "No found" : name}</p>
     <img src="${img}" class=" img-fluid rounded-start" alt="...">
-    <p>${description}</p>
+    <p>Title: ${description}</p>
+    <p>view: ${view === "null" ? "No found" : view }</p>
     ` 
     modalDiv.appendChild(div);
  }
