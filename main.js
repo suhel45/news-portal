@@ -27,6 +27,7 @@ const displayCategory = async() =>{
  displayCategory();
 
  function categoryId(a){
+    toggleSpinner(true);
     fetch(`https://openapi.programming-hero.com/api/news/category/0${a}`)
     .then(res => res.json())
     .then(data1 => display2(data1.data))
@@ -46,6 +47,7 @@ const display2 = async(datas) =>{
       const h2 = document.createElement('h3');
       h2.innerHTML = "No data found";
       sec.appendChild(h2);
+      toggleSpinner(false)
     }
     else{
         h3.innerHTML = `${len} items found`
@@ -67,6 +69,10 @@ const display2 = async(datas) =>{
                <div class="d-flex mt-2 gap-5">
                <p class="card-text  ms-2"><small>${data.author.name}</small></p>
                <p>${data.rating.number}M</p>
+               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="showModal('${data.title}','${data.image_url}')">
+               Show details
+               </button>
+
                </div>
               </div>
             </div>
@@ -75,7 +81,28 @@ const display2 = async(datas) =>{
       </div>
         `
         sec.appendChild(div);
-     }  
-     }
+        toggleSpinner(false);
+     } 
+  }
 }
 
+ const showModal = (description,img) =>{
+    const modalDiv = document.getElementById('modal-body');
+    modalDiv.textContent = '';
+    const div = document.createElement('div');
+    div.innerHTML = `
+    <img src="${img}" class=" img-fluid rounded-start" alt="...">
+    <p>${description}</p>
+    ` 
+    modalDiv.appendChild(div);
+ }
+
+ const toggleSpinner = (isLoading) =>{
+    const spinner = document.getElementById('spinner');
+    if(isLoading){
+     spinner.classList.remove('d-none');
+    }
+    else{
+        spinner.classList.add('d-none');
+    }
+ }
